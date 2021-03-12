@@ -58,3 +58,9 @@ app.patch('/campgrounds/:id', async (req, res) => {
     const campground = await Campground.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     res.redirect(`/campgrounds/${campground.id}`);
 });
+
+app.delete('/campgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    await Campground.findByIdAndDelete(id);
+    res.redirect('/campgrounds');
+});
