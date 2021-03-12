@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Campground | <%= campground?.title %></title>
-    </head>
-
-    <body>
-        <h1><%= campground?.title %> </h1>
-        <p>Price: <%= campground?.price %></p>
-        <p>Location: <%= campground?.location %></p>
-        <p>Description: <%= campground?.description %></p>
-        <div><a href='/campgrounds/<%= campground.id %>/edit'>Edit</a></div>
-        <form action='/campgrounds/<%= campground.id %>?_method=DELETE' method='POST'>
-            <button>Delete</button>
-        </form>
-        <div><a href='/campgrounds'>All Campgrounds</a></div>
-    </body>
-
-</html>
+<% layout('layouts/boilerplate.ejs') %>
+<% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
+    <h1>
+        <%= campground?.title %>
+    </h1>
+    <p>Price: <%= campground?.price %>
+    </p>
+    <p>Location: <%= campground?.location %>
+    </p>
+    <p>Description: <%= campground?.description %>
+    </p>
+    <div><a href='/campgrounds/<%= campground.id %>/edit'>Edit</a></div>
+    <form action='/campgrounds/<%= campground.id %>?_method=DELETE' method='POST'>
+        <button>Delete</button>
+    </form>
+    <div><a href='/campgrounds'>All Campgrounds</a></div>

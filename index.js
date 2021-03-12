@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const Campground = require('./models/Campground');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
@@ -13,6 +14,7 @@ db.once('open', () => console.log('> Database connection established'));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
