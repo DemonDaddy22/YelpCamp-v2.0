@@ -1,34 +1,44 @@
 <% layout('layouts/boilerplate.ejs') %>
     <% block('head').append(`<title>New Campground</title>`) %>
-        <div class='row'>
-            <h1 class='text-center'>New Campground</h1>
-            <div class='col-6 offset-3'>
-                <form class='my-3' action='/campgrounds' method='POST'>
-                    <div class='mb-3'>
-                        <label class='form-label' for='title'>Title</label>
-                        <input class='form-control' type='text' name='title' id='title' required>
+        <div class="container-fluid flex-grow-1">
+            <div class="row">
+                <div class="d-none d-lg-flex flex-column col-lg-6 px-0">
+                    <img class='img-fluid flex-grow-1'
+                        src='https://res.cloudinary.com/yelp-camp/image/upload/v1615653357/camp1.jpg'
+                        alt='new campground form image'>
+                </div>
+                <div class="col-lg-6 p-5">
+                    <div class='row d-flex flex-column justify-content-center align-items-center'>
+                        <h1 class='text-center'>New Campground</h1>
+                        <form class='my-3' action='/campgrounds' method='POST'>
+                            <div class='mb-3'>
+                                <label class='form-label' for='title'>Title</label>
+                                <input class='form-control' type='text' name='title' id='title' required>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='price'>Price</label>
+                                <div class='input-group'>
+                                    <span class='input-group-text'>$</span>
+                                    <input class='form-control' type='numeric' name='price' id='price' min='0' required>
+                                </div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='location'>Location</label>
+                                <input class='form-control' type='text' name='location' id='location' required>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='image'>Image URL</label>
+                                <input class='form-control' type='text' name='image' id='image' required>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='description'>Description</label>
+                                <textarea class='form-control' type='text' name='description' id='description'
+                                    required></textarea>
+                            </div>
+                            <button class='btn btn-primary'>Create</button>
+                        </form>
+                        <a class='text-decoration-none' href='/campgrounds'>All Campgrounds</a>
                     </div>
-                    <div class='mb-3'>
-                        <label class='form-label' for='price'>Price</label>
-                        <div class='input-group'>
-                            <span class='input-group-text'>$</span>
-                            <input class='form-control' type='numeric' name='price' id='price' min='0' required>
-                          </div>
-                    </div>
-                    <div class='mb-3'>
-                        <label class='form-label' for='location'>Location</label>
-                        <input class='form-control' type='text' name='location' id='location' required>
-                    </div>
-                    <div class='mb-3'>
-                        <label class='form-label' for='image'>Image URL</label>
-                        <input class='form-control' type='text' name='image' id='image' required>
-                    </div>
-                    <div class='mb-3'>
-                        <label class='form-label' for='description'>Description</label>
-                        <textarea class='form-control' type='text' name='description' id='description' required></textarea>
-                    </div>
-                    <button class='btn btn-primary'>Create</button>
-                </form>
-                <a class='text-decoration-none' href='/campgrounds'>All Campgrounds</a>
+                </div>
             </div>
         </div>
