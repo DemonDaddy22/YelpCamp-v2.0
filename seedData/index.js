@@ -22,7 +22,8 @@ const seedDB = async () => {
             title: `${descriptors[descriptorsIndex]} ${places[placesIndex]}`,
             price: `${getRandomNum(25)}`,
             description: 'hope plant mean outline welcome include process physical jet becoming sharp friend',
-            location: `${cities[i].city}, ${cities[i].state}`
+            image: 'https://source.unsplash.com/collection/483251',
+            location: `${cities[citiesIndex].city}, ${cities[citiesIndex].state}`
         });
 
         await campground.save();

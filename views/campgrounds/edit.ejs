@@ -1,14 +1,34 @@
 <% layout('layouts/boilerplate.ejs') %>
 <% block('head').append(`<title>Edit ${campground?.title ? campground.title : 'Campground'}</title>`) %>
-    <h1>Edit campground</h1>
-    <form action='/campgrounds/<%= campground.id %>?_method=PATCH' method='POST'>
-        <label for='title'>Title</label>
-        <input type='text' name='title' id='title' value="<%= campground?.title %>" required>
-        <label for='price'>Price</label>
-        <input type='numeric' name='price' id='price' value="<%= campground?.price %>" min='0' required>
-        <label for='description'>Description</label>
-        <input type='text' name='description' id='description' value="<%= campground?.description %>" required>
-        <label for='location'>Location</label>
-        <input type='text' name='location' id='location' value="<%= campground?.location %>" required>
-        <button>Submit</button>
-    </form>
+    <div class='row'>
+        <h1 class='text-center'>Edit <%= campground?.title ? campground.title : 'Campground'%></h1>
+        <div class='col-6 offset-3'>
+            <form class='my-3' action='/campgrounds/<%= campground.id %>?_method=PATCH' method='POST'>
+                <div class='mb-3'>
+                    <label class='form-label' for='title'>Title</label>
+                    <input class='form-control' type='text' name='title' id='title' value="<%= campground?.title %>" required>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for='price'>Price</label>
+                    <div class='input-group'>
+                        <span class='input-group-text'>$</span>
+                        <input class='form-control' type='numeric' name='price' id='price' min='0' value="<%= campground?.price %>" required>
+                      </div>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for='location'>Location</label>
+                    <input class='form-control' type='text' name='location' id='location' value="<%= campground?.location %>" required>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for='image'>Image URL</label>
+                    <input class='form-control' type='text' name='image' id='image' value="<%= campground?.image %>" required>
+                </div>
+                <div class='mb-3'>
+                    <label class='form-label' for='description'>Description</label>
+                    <textarea class='form-control' type='text' name='description' id='description' required><%= campground?.description %></textarea>
+                </div>
+                <button class='btn btn-primary'>Update</button>
+            </form>
+            <a class='text-decoration-none' href='/campgrounds/<%= campground.id %> '>Back to campground</a>
+        </div>
+    </div>

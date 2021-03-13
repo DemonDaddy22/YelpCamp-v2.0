@@ -23,6 +23,10 @@ app.use(methodOverride('_method'));
 
 app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 
+app.get('/', (req, res) => {
+    res.redirect('/campgrounds');
+});
+
 app.get('/campgrounds', async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
@@ -43,7 +47,8 @@ app.post('/campgrounds', async (req, res) => {
         title: req.body.title || '',
         price: req.body.price || 0,
         description: req.body.description || '',
-        location: req.body.location || ''
+        location: req.body.location || '',
+        image: req.body.image || ''
     });
     const response = await campground.save();
     res.redirect(`/campgrounds/${response?.id}`);
