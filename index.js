@@ -4,6 +4,8 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Campground = require('./models/Campground');
+const YelpCampError = require('./utils/YelpCampError');
+const asyncErrorHandler = require('./utils/asyncErrorHandler');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
@@ -27,22 +29,22 @@ app.get('/', (req, res) => {
     res.redirect('/campgrounds');
 });
 
-app.get('/campgrounds', async (req, res) => {
+app.get('/campgrounds', asyncErrorHandler(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds });
-});
+}));
 
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 });
 
-app.get('/campgrounds/:id', async (req, res) => {
+app.get('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     res.render('campgrounds/details', { campground });
-});
+}));
 
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', asyncErrorHandler(async (req, res, next) => {
     const campground = new Campground({
         title: req.body.title || '',
         price: req.body.price || 0,
@@ -52,22 +54,27 @@ app.post('/campgrounds', async (req, res) => {
     });
     const response = await campground.save();
     res.redirect(`/campgrounds/${response?.id}`);
-});
+}));
 
-app.get('/campgrounds/:id/edit', async (req, res) => {
+app.get('/campgrounds/:id/edit', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     res.render('campgrounds/edit', { campground });
-});
+}));
 
-app.patch('/campgrounds/:id', async (req, res) => {
+app.patch('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     res.redirect(`/campgrounds/${campground.id}`);
-});
+}));
 
-app.delete('/campgrounds/:id', async (req, res) => {
+app.delete('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
+}));
+
+// error handling middleware
+app.use((err, req, res, next) => {
+    res.send('Oh no! Something went wrong.');
 });
