@@ -11,11 +11,13 @@
                     <div class='row d-flex flex-column justify-content-center align-items-center'>
                         <h1 class='text-center'>Edit <%= campground?.title ? campground.title : 'Campground' %>
                         </h1>
-                        <form class='my-3' action='/campgrounds/<%= campground.id %>?_method=PATCH' method='POST'>
+                        <form class='my-3 needs-validation' action='/campgrounds/<%= campground.id %>?_method=PATCH'
+                            method='POST' novalidate>
                             <div class='mb-3'>
                                 <label class='form-label' for='title'>Title</label>
                                 <input class='form-control' type='text' name='title' id='title'
                                     value="<%= campground?.title %>" required>
+                                <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='price'>Price</label>
@@ -29,16 +31,19 @@
                                 <label class='form-label' for='location'>Location</label>
                                 <input class='form-control' type='text' name='location' id='location'
                                     value="<%= campground?.location %>" required>
+                                <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='image'>Image URL</label>
                                 <input class='form-control' type='text' name='image' id='image'
                                     value="<%= campground?.image %>" required>
+                                <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='description'>Description</label>
                                 <textarea class='form-control' type='text' name='description' id='description'
                                     required><%= campground?.description %></textarea>
+                                <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <button class='btn btn-primary'>Update</button>
                         </form>
