@@ -1,14 +1,14 @@
 <% layout('layouts/boilerplate.ejs') %>
     <% block('head').append(`<title>Edit ${campground?.title ? campground.title : 'Campground'}</title>`) %>
-        <div class="container-fluid flex-grow-1">
-            <div class="row">
+        <div class="container-fluid flex-grow-1 edit-form-container">
+            <div class="row h-100">
                 <div class="d-none d-lg-flex flex-column col-lg-6 px-0">
                     <img class='img-fluid flex-grow-1'
                         src='https://res.cloudinary.com/yelp-camp/image/upload/v1615653171/camp2.jpg'
                         alt='new campground form image'>
                 </div>
-                <div class="col-lg-6 p-5">
-                    <div class='row d-flex flex-column justify-content-center align-items-center'>
+                <div class="col-lg-6 px-3 px-md-5 py-4 edit-form">
+                    <div class='d-flex flex-column justify-content-center align-items-center'>
                         <h1 class='text-center'>Edit <%= campground?.title ? campground.title : 'Campground' %>
                         </h1>
                         <form class='my-3 needs-validation' action='/campgrounds/<%= campground.id %>?_method=PATCH'

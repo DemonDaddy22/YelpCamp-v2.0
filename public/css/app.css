@@ -1,0 +1,10 @@
+@media (min-width: 992px) {
+    .new-form-container, .edit-form-container {
+        height: calc(100vh - 112px);
+        overflow-y: hidden;
+    }
+    .new-form, .edit-form {
+        height: 100%;
+        overflow-y: scroll;
+    }
+}
