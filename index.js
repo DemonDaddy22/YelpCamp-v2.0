@@ -77,11 +77,31 @@ app.delete('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
 }));
 
 app.all('*', (req, res, next) => {
-    next(new YelpCampError('Page not Found!', 404));
+    next(new YelpCampError(null, 404));
 });
 
 // error handling middleware
 app.use((err, req, res, next) => {
-    const { message = 'Oh no! Something went wrong!', statusCode = 500 } = err;
-    res.status(statusCode).send(message);
+    let { statusCode = 500 } = err;
+    const message = 'Uh-Oh!';
+    let description = '';
+    switch (statusCode) {
+        case 400:
+            description = 'The server could not understand the request due to invalid syntax!';
+            break;
+        case 401:
+            description = 'You are not authorized to perform this action!';
+            break;
+        case 403:
+            description = 'You cannot perform this action!';
+            break;
+        case 404:
+            description = 'The page you are looking for does not exist!';
+            break;
+        case 500: default:
+            description = 'Oh no! Something went wrong!';
+            break;
+    }
+    description += ' Click on the button below to go back to the homepage.';
+    res.status(statusCode).render('error', { message, statusCode, description });
 });
