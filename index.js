@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
 const Campground = require('./models/Campground');
 const YelpCampError = require('./utils/YelpCampError');
 const asyncErrorHandler = require('./utils/asyncErrorHandler');
+const { validateCampground } = require('./utils/middleware');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
@@ -45,15 +47,8 @@ app.get('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     res.render('campgrounds/details', { campground });
 }));
 
-app.post('/campgrounds', asyncErrorHandler(async (req, res, next) => {
-    if (!req.body) throw new YelpCampError('Bad Request', 400);
-    const campground = new Campground({
-        title: req.body.title || '',
-        price: req.body.price || 0,
-        description: req.body.description || '',
-        location: req.body.location || '',
-        image: req.body.image || ''
-    });
+app.post('/campgrounds', validateCampground, asyncErrorHandler(async (req, res, next) => {
+    const campground = new Campground(req.body.campground);
     const response = await campground.save();
     res.redirect(`/campgrounds/${response?.id}`);
 }));
@@ -64,9 +59,9 @@ app.get('/campgrounds/:id/edit', asyncErrorHandler(async (req, res) => {
     res.render('campgrounds/edit', { campground });
 }));
 
-app.patch('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
+app.patch('/campgrounds/:id', validateCampground, asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    const campground = await Campground.findByIdAndUpdate(id, req.body.campground, { new: true, runValidators: true });
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
@@ -77,13 +72,12 @@ app.delete('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
 }));
 
 app.all('*', (req, res, next) => {
-    next(new YelpCampError(null, 404));
+    next(new YelpCampError('Uh-Oh!', 404));
 });
 
 // error handling middleware
 app.use((err, req, res, next) => {
-    let { statusCode = 500 } = err;
-    const message = 'Uh-Oh!';
+    let { message = 'Uh-Oh!', statusCode = 500 } = err;
     let description = '';
     switch (statusCode) {
         case 400:

@@ -13,29 +13,29 @@
                         <form class='my-3 needs-validation w-inherit' action='/campgrounds' method='POST' novalidate>
                             <div class='mb-3'>
                                 <label class='form-label' for='title'>Title</label>
-                                <input class='form-control' type='text' name='title' id='title' required>
+                                <input class='form-control' type='text' name='campground[title]' id='title' required>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='price'>Price</label>
                                 <div class='input-group'>
                                     <span class='input-group-text'>$</span>
-                                    <input class='form-control' type='numeric' name='price' id='price' min='0' required>
+                                    <input class='form-control' type='numeric' name='campground[price]' id='price' min='0' required>
                                 </div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='location'>Location</label>
-                                <input class='form-control' type='text' name='location' id='location' required>
+                                <input class='form-control' type='text' name='campground[location]' id='location' required>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='image'>Image URL</label>
-                                <input class='form-control' type='text' name='image' id='image' required>
+                                <input class='form-control' type='text' name='campground[image]' id='image' required>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <div class='mb-3'>
                                 <label class='form-label' for='description'>Description</label>
-                                <textarea class='form-control' type='text' name='description' id='description'
+                                <textarea class='form-control' type='text' name='campground[description]' id='description'
                                     required></textarea>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
