@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-const Joi = require('joi');
 const Campground = require('./models/Campground');
 const YelpCampError = require('./utils/YelpCampError');
 const asyncErrorHandler = require('./utils/asyncErrorHandler');
