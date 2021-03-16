@@ -2,15 +2,15 @@
     <% block('head').append(`<title>New Campground</title>`) %>
         <div class='container-fluid flex-grow-1 new-form-container'>
             <div class='row h-100'>
-                <div class='d-none d-lg-flex flex-column col-lg-6 px-0'>
+                <div class='d-none d-lg-flex flex-column col-lg-7 col-xl-6 px-0'>
                     <img class='img-fluid flex-grow-1'
                         src='https://res.cloudinary.com/yelp-camp/image/upload/v1615653357/camp1.jpg'
                         alt='new campground form image'>
                 </div>
-                <div class='col-lg-6 px-3 px-md-5 py-4 new-form'>
-                    <div class='d-flex flex-column justify-content-center align-items-center'>
+                <div class='col-lg-5 col-xl-6 px-3 px-md-5 py-4 new-form'>
+                    <div class='d-flex flex-column justify-content-center align-items-center w-100'>
                         <h1 class='text-center'>New Campground</h1>
-                        <form class='my-3 needs-validation' action='/campgrounds' method='POST' novalidate>
+                        <form class='my-3 needs-validation w-inherit' action='/campgrounds' method='POST' novalidate>
                             <div class='mb-3'>
                                 <label class='form-label' for='title'>Title</label>
                                 <input class='form-control' type='text' name='title' id='title' required>
@@ -41,7 +41,7 @@
                             </div>
                             <button class='btn btn-primary'>Create</button>
                         </form>
-                        <a class='text-decoration-none' href='/campgrounds'>All Campgrounds</a>
+                        <a class='text-decoration-none w-inherit' href='/campgrounds'>All Campgrounds</a>
                     </div>
                 </div>
             </div>

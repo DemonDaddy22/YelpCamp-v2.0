@@ -46,6 +46,7 @@ app.get('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
 }));
 
 app.post('/campgrounds', asyncErrorHandler(async (req, res, next) => {
+    if (!req.body) throw new YelpCampError('Bad Request', 400);
     const campground = new Campground({
         title: req.body.title || '',
         price: req.body.price || 0,
@@ -75,7 +76,12 @@ app.delete('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     res.redirect('/campgrounds');
 }));
 
+app.all('*', (req, res, next) => {
+    next(new YelpCampError('Page not Found!', 404));
+});
+
 // error handling middleware
 app.use((err, req, res, next) => {
-    res.send('Oh no! Something went wrong.');
+    const { message = 'Oh no! Something went wrong!', statusCode = 500 } = err;
+    res.status(statusCode).send(message);
 });
