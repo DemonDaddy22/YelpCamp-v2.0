@@ -1,4 +1,4 @@
-const { campgroundSchema, ratingSchema } = require("../schema");
+const { campgroundSchema, reviewSchema } = require("../schema");
 const YelpCampError = require("./YelpCampError");
 
 const middlewareHelper = (schema, req, res, next) => {
@@ -12,6 +12,6 @@ const middlewareHelper = (schema, req, res, next) => {
 
 const validateCampground = (req, res, next) => middlewareHelper(campgroundSchema, req, res, next);
 
-const validateRating = (req, res, next) => middlewareHelper(ratingSchema, req, res, next);
+const validateReview = (req, res, next) => middlewareHelper(reviewSchema, req, res, next);
 
-module.exports = { validateCampground, validateRating };
+module.exports = { validateCampground, validateReview };

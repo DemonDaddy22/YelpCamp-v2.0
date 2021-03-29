@@ -4,9 +4,10 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Campground = require('./models/Campground');
+const Review = require('./models/Review');
 const YelpCampError = require('./utils/YelpCampError');
 const asyncErrorHandler = require('./utils/asyncErrorHandler');
-const { validateCampground } = require('./utils/middleware');
+const { validateCampground, validateReview } = require('./utils/middleware');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
@@ -68,6 +69,16 @@ app.delete('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
+}));
+
+app.post('/campgrounds/:id/reviews', validateReview, asyncErrorHandler(async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground.id}`);
 }));
 
 app.all('*', (req, res, next) => {
