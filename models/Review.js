@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
     body: {
-        type: String
+        type: String,
+        required: true
     },
     rating: {
         type: Number,

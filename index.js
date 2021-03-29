@@ -43,7 +43,7 @@ app.get('/campgrounds/new', (req, res) => {
 
 app.get('/campgrounds/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id);
+    const campground = await Campground.findById(id).populate('reviews');
     res.render('campgrounds/details', { campground });
 }));
 
@@ -75,7 +75,7 @@ app.post('/campgrounds/:id/reviews', validateReview, asyncErrorHandler(async (re
     const { id } = req.params;
     const campground = await Campground.findById(id);
     const review = new Review(req.body.review);
-    campground.reviews.push(review);
+    campground.reviews.unshift(review);
     await review.save();
     await campground.save();
     res.redirect(`/campgrounds/${campground.id}`);

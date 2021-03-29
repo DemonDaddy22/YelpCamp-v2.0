@@ -2,7 +2,7 @@
     <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
         <div class='container mt-5 flex-grow-1'>
             <div class='row'>
-                <div class='col-6 offset-3'>
+                <div class='col-12 col-lg-6 offset-lg-3'>
                     <div class='card mb-3'>
                         <img src='<%= campground?.image %>' class='card-img-top' alt='<%= campground?.title %>'>
                         <div class='card-body'>
@@ -29,9 +29,12 @@
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="col-12 col-lg-3">
                     <div class='mb-3'>
                         <h2>Leave a review</h2>
-                        <form action='/campgrounds/<%= campground.id %>/reviews' method='POST'>
+                        <form action='/campgrounds/<%= campground.id %>/reviews' method='POST' class='needs-validation'
+                            novalidate>
                             <div class='mb-3'>
                                 <label for='rating' class='form-label'>Rating</label>
                                 <input type='range' min='1' max='5' name='review[rating]' id='rating' class='form-range'
@@ -46,11 +49,26 @@
                             </div>
                             <div class='mb-3'>
                                 <label for='body' class='form-label'>Review</label>
-                                <textarea name='review[body]' id='body' cols='30' rows='3'
-                                    class='form-control'></textarea>
+                                <textarea name='review[body]' id='body' cols='30' rows='3' class='form-control'
+                                    required></textarea>
+                                <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <button class='btn btn-primary btn-sm'>Submit Review</button>
                         </form>
+                    </div>
+                    <div class="mb-3">
+                        <% for (let review of campground.reviews) { %>
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <h5 class='card-title'>
+                                        Rating: <%= review.rating %>
+                                    </h5>
+                                    <p class='m-0'>
+                                        Review: <%= review.body %>
+                                    </p>
+                                </div>
+                            </div>
+                            <% } %>
                     </div>
                 </div>
             </div>
