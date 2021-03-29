@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate.ejs') %>
     <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
-        <div class="container mt-5 flex-grow-1">
+        <div class='container mt-5 flex-grow-1'>
             <div class='row'>
                 <div class='col-6 offset-3'>
                     <div class='card mb-3'>
@@ -23,11 +23,34 @@
                         </ul>
                         <div class='card-body d-flex'>
                             <a href='/campgrounds/<%= campground.id %>/edit'
-                                class='btn btn-sm btn-warning me-2'>Edit</a>
+                                class='btn btn-sm btn-primary me-2'>Edit</a>
                             <form action='/campgrounds/<%= campground.id %>?_method=DELETE' method='POST'>
                                 <button class='btn btn-sm btn-danger'>Delete</button>
                             </form>
                         </div>
+                    </div>
+                    <div class='mb-3'>
+                        <h2>Leave a review</h2>
+                        <form action=''>
+                            <div class='mb-3'>
+                                <label for='rating' class='form-label'>Rating</label>
+                                <input type='range' min='1' max='5' name='review[rating]' id='rating' class='form-range'
+                                    list='ticks'>
+                                <datalist id='ticks' style='display: flex; justify-content: space-between'>
+                                    <option value='1' label='1'></option>
+                                    <option value='2' label='2'></option>
+                                    <option value='3' label='3'></option>
+                                    <option value='4' label='4'></option>
+                                    <option value='5' label='5'></option>
+                                </datalist>
+                            </div>
+                            <div class='mb-3'>
+                                <label for='body' class='form-label'>Review</label>
+                                <textarea name='review[body]' id='body' cols='30' rows='3'
+                                    class='form-control'></textarea>
+                            </div>
+                            <button class='btn btn-primary btn-sm'>Submit Review</button>
+                        </form>
                     </div>
                 </div>
             </div>
