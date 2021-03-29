@@ -81,6 +81,13 @@ app.post('/campgrounds/:id/reviews', validateReview, asyncErrorHandler(async (re
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
+app.delete('/campgrounds/:id/reviews/:reviewId', asyncErrorHandler(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Review.findByIdAndDelete(reviewId);
+    const campground = await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }, { new: true });
+    res.redirect(`/campgrounds/${campground.id}`);
+}));
+
 app.all('*', (req, res, next) => {
     next(new YelpCampError('Uh-Oh!', 404));
 });
