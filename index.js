@@ -7,7 +7,7 @@ const Campground = require('./models/Campground');
 const Review = require('./models/Review');
 const YelpCampError = require('./utils/YelpCampError');
 const asyncErrorHandler = require('./utils/asyncErrorHandler');
-const { validateCampground, validateReview } = require('./utils/middleware');
+const { validateCampground, validateReview, validateComment } = require('./utils/middleware');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 

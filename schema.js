@@ -17,4 +17,10 @@ const reviewSchema = Joi.object({
     }).required()
 });
 
-module.exports = { campgroundSchema, reviewSchema };
+const commentSchema = Joi.object({
+    comment: Joi.object({
+        body: Joi.string().required()
+    }).required()
+});
+
+module.exports = { campgroundSchema, reviewSchema, commentSchema };
