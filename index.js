@@ -99,6 +99,13 @@ app.post('/campgrounds/:id/comments', validateComment, asyncErrorHandler(async (
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
+app.delete('/campgrounds/:id/comments/:commentId', asyncErrorHandler(async (req, res) => {
+    const { id, commentId } = req.params;
+    await Comment.findByIdAndDelete(commentId);
+    const campground = await Campground.findByIdAndUpdate(id, { $pull: { comments, commentId } }, { new: true });
+    res.redirect(`/campgrounds/${campground.id}`);
+}));
+
 app.all('*', (req, res, next) => {
     next(new YelpCampError('Uh-Oh!', 404));
 });
