@@ -11,6 +11,12 @@
     font-weight: 800;
 }
 
+.btn-trash {
+    color: #dc3545;
+    padding: 0 !important;
+    outline: none;
+}
+
 @media (min-width: 576px) {
     .w-sm-80 {
         width: 80% !important;

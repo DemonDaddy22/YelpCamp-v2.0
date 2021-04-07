@@ -33,8 +33,8 @@
                         <form action='/campgrounds/<%= campground.id %>/comments' method='POST' class='needs-validation'
                             novalidate>
                             <div class='mb-3'>
-                                <textarea name='comment[body]' cols='30' rows='5' class='form-control' placeholder="Add a comment..."
-                                    required></textarea>
+                                <textarea name='comment[body]' cols='30' rows='5' class='form-control'
+                                    placeholder="Add a comment..." required></textarea>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
                             <button class='btn btn-primary btn-sm'>Add Comment</button>
@@ -44,14 +44,20 @@
                         <% for (let comment of campground.comments) { %>
                             <div class="card mb-2">
                                 <div class="card-body">
-                                    <p>
-                                        <%= comment.body %>
-                                    </p>
-                                    <form
-                                        action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE"
-                                        method="post">
-                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </form>
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <p>
+                                                <%= comment.body %>
+                                            </p>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <form
+                                                action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE"
+                                                method="post">
+                                                <button class="btn btn-trash bi bi-trash"></button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <% } %>
@@ -76,7 +82,8 @@
                             </div>
                             <div class='mb-3'>
                                 <label for='body' class='form-label'>Review</label>
-                                <textarea name='review[body]' id='body' cols='30' rows='3' placeholder='Write a review for this campground...' class='form-control'
+                                <textarea name='review[body]' id='body' cols='30' rows='3'
+                                    placeholder='Write a review for this campground...' class='form-control'
                                     required></textarea>
                                 <div class='valid-feedback'>Looks good!</div>
                             </div>
@@ -96,7 +103,7 @@
                                     <form
                                         action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
                                         method="post">
-                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        <button class="btn btn-trash bi bi-trash"></button>
                                     </form>
                                 </div>
                             </div>
