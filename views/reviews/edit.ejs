@@ -1,0 +1,42 @@
+<% layout('layouts/boilerplate.ejs') %>
+    <% block('head').append(`<title>Edit ${campground?.title ? campground.title : 'Campground'}</title>`) %>
+        <div class='container-fluid flex-grow-1 edit-form-container'>
+            <div class='row h-100'>
+                <div class='d-none d-lg-flex flex-column col-lg-7 col-xl-6 px-0'>
+                    <img class='img-fluid flex-grow-1'
+                        src='https://res.cloudinary.com/yelp-camp/image/upload/v1617903937/camp4.jpg'
+                        alt='new campground form image'>
+                </div>
+                <div class='col-lg-5 col-xl-6 px-3 px-md-5 py-4 edit-form'>
+                    <div class='d-flex flex-column justify-content-center align-items-center w-100'>
+                        <h1 class='text-center'>Edit review</h1>
+                        <form class='my-3 needs-validation w-inherit'
+                            action='/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=PATCH'
+                            method='POST' novalidate>
+                            <div class='mb-3'>
+                                <label for='rating' class='form-label'>Rating</label>
+                                <input type='range' min='1' max='5' name='review[rating]' id='rating' class='form-range'
+                                    list='ticks' value='<%= review.rating %>'>
+                                <datalist id='ticks' style='display: flex; justify-content: space-between'>
+                                    <option value='1' label='1'></option>
+                                    <option value='2' label='2'></option>
+                                    <option value='3' label='3'></option>
+                                    <option value='4' label='4'></option>
+                                    <option value='5' label='5'></option>
+                                </datalist>
+                            </div>
+                            <div class='mb-3'>
+                                <label for='body' class='form-label'>Review</label>
+                                <textarea name='review[body]' id='body' cols='30' rows='3'
+                                    placeholder='Write a review for this campground...' class='form-control'
+                                    required><%= review.body %></textarea>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <button class='btn btn-primary'>Update</button>
+                        </form>
+                        <a class='text-decoration-none w-inherit' href='/campgrounds/<%= campground.id %>'>Back to
+                            campground</a>
+                    </div>
+                </div>
+            </div>
+        </div>

@@ -51,7 +51,8 @@
                                             </div>
                                         </div>
                                         <div class="col-2 d-flex align-items-center justify-content-end">
-                                            <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>" class="btn btn-pencil bi bi-pencil"></a>
+                                            <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit"
+                                                class="btn btn-pencil bi bi-pencil"></a>
                                             <form
                                                 action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE"
                                                 method="post">
@@ -95,17 +96,20 @@
                         <% for (let review of campground.reviews) { %>
                             <div class="card mb-2">
                                 <div class="card-body">
-                                    <h5 class='card-title'>
-                                        Rating: <%= review.rating %>
-                                    </h5>
-                                    <p>
-                                        Review: <%= review.body %>
-                                    </p>
-                                    <form
-                                        action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
-                                        method="post">
-                                        <button class="btn btn-trash bi bi-trash"></button>
-                                    </form>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h5 class='card-title flex-grow-1 m-0'>
+                                            Rating: <%= review.rating %>
+                                        </h5>
+                                        <a href="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>/edit"
+                                            class="btn btn-pencil bi bi-pencil"></a>
+                                        <form
+                                            action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
+                                            method="post">
+                                            <button class="btn btn-trash bi bi-trash"></button>
+                                        </form>
+                                    </div>
+                                    <div>Review: <%= review.body %>
+                                    </div>
                                 </div>
                             </div>
                             <% } %>

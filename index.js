@@ -82,9 +82,17 @@ app.post('/campgrounds/:id/reviews', validateReview, asyncErrorHandler(async (re
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
+app.get('/campgrounds/:id/reviews/:reviewId/edit', asyncErrorHandler(async (req, res) => {
+    const { id, reviewId } = req.params;
+    const campground = await Campground.findById(id);
+    const review = await Review.findById(reviewId);
+    res.render('reviews/edit', { campground, review });
+}));
+
 app.patch('/campgrounds/:id/reviews/:reviewId', validateReview, asyncErrorHandler(async (req, res) => {
-    const { reviewId } = req.params;
+    const { id, reviewId } = req.params;
     await Review.findByIdAndUpdate(reviewId, req.body.review, { new: true, runValidators: true });
+    const campground = await Campground.findById(id);
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
@@ -105,7 +113,7 @@ app.post('/campgrounds/:id/comments', validateComment, asyncErrorHandler(async (
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-app.get('/campgrounds/:id/comments/:commentId', asyncErrorHandler(async (req, res) => {
+app.get('/campgrounds/:id/comments/:commentId/edit', asyncErrorHandler(async (req, res) => {
     const { id, commentId } = req.params;
     const campground = await Campground.findById(id);
     const comment = await Comment.findById(commentId);
