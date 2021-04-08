@@ -46,11 +46,12 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-10">
-                                            <p>
+                                            <div>
                                                 <%= comment.body %>
-                                            </p>
+                                            </div>
                                         </div>
-                                        <div class="col-2 d-flex justify-content-end">
+                                        <div class="col-2 d-flex align-items-center justify-content-end">
+                                            <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>" class="btn btn-pencil bi bi-pencil"></a>
                                             <form
                                                 action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE"
                                                 method="post">

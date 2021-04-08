@@ -11,6 +11,13 @@
     font-weight: 800;
 }
 
+.btn-pencil {
+    margin-right: 8px;
+    color: #005dc2;
+    padding: 0 !important;
+    outline: none;
+}
+
 .btn-trash {
     color: #dc3545;
     padding: 0 !important;

@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate.ejs') %>
+    <% block('head').append(`<title>Edit ${campground?.title ? campground.title : 'Campground'}</title>`) %>
+        <div class='container-fluid flex-grow-1 edit-form-container'>
+            <div class='row h-100'>
+                <div class='d-none d-lg-flex flex-column col-lg-7 col-xl-6 px-0'>
+                    <img class='img-fluid flex-grow-1'
+                        src='https://res.cloudinary.com/yelp-camp/image/upload/v1617901693/camp3.jpg'
+                        alt='new campground form image'>
+                </div>
+                <div class='col-lg-5 col-xl-6 px-3 px-md-5 py-4 edit-form'>
+                    <div class='d-flex flex-column justify-content-center align-items-center w-100'>
+                        <h1 class='text-center'>Edit comment</h1>
+                        <form class='my-3 needs-validation w-inherit'
+                            action='/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=PATCH'
+                            method='POST' novalidate>
+                            <div class='mb-3'>
+                                <label class='form-label' for='body'>Updated comment body</label>
+                                <textarea name='comment[body]' cols='30' rows='5' class='form-control'
+                                    placeholder='Add a comment...' id='body' required><%= comment.body %></textarea>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <button class='btn btn-primary'>Update</button>
+                        </form>
+                        <a class='text-decoration-none w-inherit' href='/campgrounds/<%= campground.id %>'>Back to
+                            campground</a>
+                    </div>
+                </div>
+            </div>
+        </div>
