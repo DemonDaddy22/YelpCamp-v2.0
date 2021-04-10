@@ -4,13 +4,10 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const YelpCampError = require('./utils/YelpCampError');
-const asyncErrorHandler = require('./utils/asyncErrorHandler');
-const { validateComment } = require('./utils/middleware');
-const Campground = require('./models/Campground');
-const Comment = require('./models/Comment');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
+const commentRoutes = require('./routes/comments');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
@@ -33,41 +30,11 @@ app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/campgrounds/:id/comments', commentRoutes);
 
 app.get('/', (req, res) => {
     res.redirect('/campgrounds');
 });
-
-app.post('/campgrounds/:id/comments', validateComment, asyncErrorHandler(async (req, res) => {
-    const { id } = req.params;
-    const campground = await Campground.findById(id);
-    const comment = new Comment(req.body.comment);
-    campground.comments.unshift(comment);
-    await comment.save();
-    await campground.save();
-    res.redirect(`/campgrounds/${campground.id}`);
-}));
-
-app.get('/campgrounds/:id/comments/:commentId/edit', asyncErrorHandler(async (req, res) => {
-    const { id, commentId } = req.params;
-    const campground = await Campground.findById(id);
-    const comment = await Comment.findById(commentId);
-    res.render('comments/edit', { campground, comment });
-}));
-
-app.patch('/campgrounds/:id/comments/:commentId', validateComment, asyncErrorHandler(async (req, res) => {
-    const { id, commentId } = req.params;
-    const campground = await Campground.findById(id);
-    await Comment.findByIdAndUpdate(commentId, req.body.comment, { new: true, runValidators: true });
-    res.redirect(`/campgrounds/${campground.id}`);
-}));
-
-app.delete('/campgrounds/:id/comments/:commentId', asyncErrorHandler(async (req, res) => {
-    const { id, commentId } = req.params;
-    await Comment.findByIdAndDelete(commentId);
-    const campground = await Campground.findByIdAndUpdate(id, { $pull: { comments, commentId } }, { new: true });
-    res.redirect(`/campgrounds/${campground.id}`);
-}));
 
 app.all('*', (req, res, next) => {
     next(new YelpCampError('Uh-Oh!', 404));
