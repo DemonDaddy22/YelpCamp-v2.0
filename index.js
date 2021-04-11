@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
@@ -25,6 +26,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
+
+const sessionConfig = {
+    secret: 'canbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+app.use(session(sessionConfig));
 
 app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 
