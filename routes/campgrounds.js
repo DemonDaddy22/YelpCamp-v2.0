@@ -35,12 +35,14 @@ router.get('/:id/edit', asyncErrorHandler(async (req, res) => {
 router.patch('/:id', validateCampground, asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, req.body.campground, { new: true, runValidators: true });
+    req.flash('success', 'Campground updated successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
 router.delete('/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    req.flash('success', 'Campground deleted successfully!');
     res.redirect('/campgrounds');
 }));
 

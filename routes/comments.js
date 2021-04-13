@@ -12,6 +12,7 @@ router.post('/', validateComment, asyncErrorHandler(async (req, res) => {
     campground.comments.unshift(comment);
     await comment.save();
     await campground.save();
+    req.flash('success', 'Comment added successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
@@ -26,6 +27,7 @@ router.patch('/:commentId', validateComment, asyncErrorHandler(async (req, res) 
     const { id, commentId } = req.params;
     const campground = await Campground.findById(id);
     await Comment.findByIdAndUpdate(commentId, req.body.comment, { new: true, runValidators: true });
+    req.flash('success', 'Comment updated successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
@@ -33,6 +35,7 @@ router.delete('/:commentId', asyncErrorHandler(async (req, res) => {
     const { id, commentId } = req.params;
     await Comment.findByIdAndDelete(commentId);
     const campground = await Campground.findByIdAndUpdate(id, { $pull: { comments: commentId } }, { new: true });
+    req.flash('success', 'Comment deleted successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
