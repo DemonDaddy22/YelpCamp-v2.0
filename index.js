@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const flash = require('connect-flash');
 const YelpCampError = require('./utils/YelpCampError');
+const { flashMiddleware } = require('./utils/middleware');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
@@ -38,6 +40,8 @@ const sessionConfig = {
     }
 };
 app.use(session(sessionConfig));
+app.use(flash());
+app.use(flashMiddleware);
 
 app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 

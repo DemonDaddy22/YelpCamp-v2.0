@@ -1,7 +1,7 @@
 const { campgroundSchema, reviewSchema, commentSchema } = require("../schema");
 const YelpCampError = require("./YelpCampError");
 
-const middlewareHelper = (schema, req, res, next) => {
+const schemaValidator = (schema, req, res, next) => {
     const {error} = schema.validate(req.body);
     if (error) {
         if (error.isJoi) throw new YelpCampError(error.details.map(_ => _.message).join(','), 422);
@@ -10,10 +10,16 @@ const middlewareHelper = (schema, req, res, next) => {
     else next();
 };
 
-const validateCampground = (req, res, next) => middlewareHelper(campgroundSchema, req, res, next);
+const validateCampground = (req, res, next) => schemaValidator(campgroundSchema, req, res, next);
 
-const validateReview = (req, res, next) => middlewareHelper(reviewSchema, req, res, next);
+const validateReview = (req, res, next) => schemaValidator(reviewSchema, req, res, next);
 
-const validateComment = (req, res, next) => middlewareHelper(commentSchema, req, res, next);
+const validateComment = (req, res, next) => schemaValidator(commentSchema, req, res, next);
 
-module.exports = { validateCampground, validateReview, validateComment };
+const flashMiddleware = (req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+}
+
+module.exports = { validateCampground, validateReview, validateComment, flashMiddleware };

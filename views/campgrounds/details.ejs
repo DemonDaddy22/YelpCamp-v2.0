@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate.ejs') %>
     <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
         <div class='container mt-5 flex-grow-1'>
+            <%- include('../partials/flash') %>
             <div class='row'>
                 <div class='col-12 col-lg-6 offset-lg-3'>
                     <div class='card mb-3'>
