@@ -1,6 +1,7 @@
 <% layout('layouts/boilerplate.ejs') %>
     <% block('head').append(`<title>Campground</title>`) %>
         <div class="container mt-5 flex-grow-1">
+            <%- include('../partials/flash') %>
             <h1>All Campgrounds</h1>
             <% for (let campground of campgrounds) { %>
                 <div class='card mb-3'>

@@ -16,6 +16,10 @@ router.get('/new', (req, res) => {
 router.get('/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id).populate('reviews').populate('comments');
+    if (!campground) {
+        req.flash('error', 'Campground not found.');
+        return res.redirect('/campgrounds');
+    }
     res.render('campgrounds/details', { campground });
 }));
 
@@ -29,12 +33,20 @@ router.post('/', validateCampground, asyncErrorHandler(async (req, res, next) =>
 router.get('/:id/edit', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
+    if (!campground) {
+        req.flash('error', 'Campground not found.');
+        return res.redirect('/campgrounds');
+    }
     res.render('campgrounds/edit', { campground });
 }));
 
 router.patch('/:id', validateCampground, asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, req.body.campground, { new: true, runValidators: true });
+    if (!campground) {
+        req.flash('error', 'Campground not found.');
+        return res.redirect('/campgrounds');
+    }
     req.flash('success', 'Campground updated successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
@@ -42,6 +54,10 @@ router.patch('/:id', validateCampground, asyncErrorHandler(async (req, res) => {
 router.delete('/:id', asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
+    if (!campground) {
+        req.flash('error', 'Campground not found.');
+        return res.redirect('/campgrounds');
+    }
     req.flash('success', 'Campground deleted successfully!');
     res.redirect('/campgrounds');
 }));
