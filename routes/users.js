@@ -1,7 +1,15 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const User = require('../models/User');
 const asyncErrorHandler = require('../utils/asyncErrorHandler');
+
+const greeting = () => {
+    const hours = new Date().getHours();
+    if (hours < 12) return 'Good Morning';
+    if (hours < 17) return 'Good Afternoon';
+    if (hours < 24) return 'Good Evening';
+}
 
 router.get('/register', (req, res) => {
     res.render('users/new');
@@ -20,6 +28,19 @@ router.post(
             req.flash('error', e.message);
             res.redirect('/users/register');
         }
+    })
+);
+
+router.get('/login', (req, res) => {
+    res.render('users/login');
+});
+
+router.post(
+    '/login',
+    passport.authenticate('local', { failureFlash: true, failureRedirect: '/users/login' }),
+    asyncErrorHandler(async (req, res) => {
+        req.flash('success', `${greeting()}, ${req.body.username}!`);
+        res.redirect('/campgrounds');
     })
 );
 

@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate.ejs') %>
+    <% block('head').append(`<title>Login</title>`) %>
+        <div class='container-fluid flex-grow-1 new-form-container'>
+            <div class='row h-100'>
+                <div class='d-none d-lg-flex flex-column col-lg-7 col-xl-6 px-0'>
+                    <img class='img-fluid flex-grow-1'
+                        src='https://res.cloudinary.com/yelp-camp/image/upload/v1619103098/camp6.jpg'
+                        alt='new campground form image'>
+                </div>
+                <div class='col-lg-5 col-xl-6 px-3 px-md-5 py-4 new-form'>
+                    <%- include('../partials/flash') %>
+                    <div class='d-flex flex-column justify-content-center align-items-center w-100'>
+                        <h1 class='text-center'>Login to YelpCamp</h1>
+                        <form class='my-3 needs-validation w-inherit' action='/users/login' method='POST' novalidate>
+                            <div class='mb-3'>
+                                <label class='form-label' for='username'>Username</label>
+                                <input class='form-control' type='text' name='username' id='username' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='password'>Password</label>
+                                <input class='form-control' type='password' name='password' id='password' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <button class='btn btn-primary'>Login</button>
+                        </form>
+                        <div class='w-inherit d-flex'>New user? <a class='text-decoration-none mx-1' href='/users/register'>Register</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
