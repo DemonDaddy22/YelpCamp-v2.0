@@ -1,0 +1,46 @@
+<% layout('layouts/boilerplate.ejs') %>
+    <% block('head').append(`<title>Register</title>`) %>
+        <div class='container-fluid flex-grow-1 new-form-container'>
+            <div class='row h-100'>
+                <div class='d-none d-lg-flex flex-column col-lg-7 col-xl-6 px-0'>
+                    <img class='img-fluid flex-grow-1'
+                        src='https://res.cloudinary.com/yelp-camp/image/upload/v1617901694/camp1.jpg'
+                        alt='new campground form image'>
+                </div>
+                <div class='col-lg-5 col-xl-6 px-3 px-md-5 py-4 new-form'>
+                    <%- include('../partials/flash') %>
+                    <div class='d-flex flex-column justify-content-center align-items-center w-100'>
+                        <h1 class='text-center'>Welcome to YelpCamp</h1>
+                        <form class='my-3 needs-validation w-inherit' action='/users' method='POST' novalidate>
+                            <div class='mb-3'>
+                                <label class='form-label' for='firstname'>First Name</label>
+                                <input class='form-control' type='text' name='user[firstname]' id='firstname' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='lastname'>Last Name</label>
+                                <input class='form-control' type='text' name='user[lastname]' id='lastname' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='username'>Username</label>
+                                <input class='form-control' type='text' name='user[username]' id='username' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='email'>Email</label>
+                                <input class='form-control' type='email' name='user[email]' id='email' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <div class='mb-3'>
+                                <label class='form-label' for='password'>Password</label>
+                                <input class='form-control' type='password' name='user[password]' id='password' required>
+                                <div class='valid-feedback'>Looks good!</div>
+                            </div>
+                            <button class='btn btn-primary'>Register</button>
+                        </form>
+                        <div class='w-inherit d-flex'>Already a user? <a class='text-decoration-none mx-1' href='/login'>Login</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>

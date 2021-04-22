@@ -9,11 +9,12 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const YelpCampError = require('./utils/YelpCampError');
 const { flashMiddleware } = require('./utils/middleware');
+const User = require('./models/User');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const commentRoutes = require('./routes/comments');
-const User = require('./models/User');
+const userRoutes = require('./routes/users');
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp', {
     useNewUrlParser: true,
@@ -62,6 +63,7 @@ app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 app.use('/campgrounds/:id/comments', commentRoutes);
+app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
     res.redirect('/campgrounds');
