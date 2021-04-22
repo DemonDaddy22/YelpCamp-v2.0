@@ -5,17 +5,25 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 const YelpCampError = require('./utils/YelpCampError');
 const { flashMiddleware } = require('./utils/middleware');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 const commentRoutes = require('./routes/comments');
+const User = require('./models/User');
 
-mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
+mongoose.connect('mongodb://localhost:27017/yelpcamp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+});
 
 const db = mongoose.connection;
-db.on('error', err => console.error(err));
+db.on('error', (err) => console.error(err));
 db.once('open', () => console.log('> Database connection established'));
 
 const app = express();
@@ -36,12 +44,18 @@ const sessionConfig = {
     cookie: {
         httpOnly: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
 };
 app.use(session(sessionConfig));
 app.use(flash());
 app.use(flashMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 
@@ -74,7 +88,8 @@ app.use((err, req, res, next) => {
         case 404:
             description = 'The page you are looking for does not exist!';
             break;
-        case 500: default:
+        case 500:
+        default:
             description = 'Oh no! Something went wrong!';
             break;
     }
