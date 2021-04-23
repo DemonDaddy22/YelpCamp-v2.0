@@ -43,7 +43,9 @@ router.post(
     passport.authenticate('local', { failureFlash: true, failureRedirect: '/users/login' }),
     asyncErrorHandler(async (req, res) => {
         req.flash('success', `${greeting()}, ${req.body.username}!`);
-        res.redirect('/campgrounds');
+        const redirectUrl = req.session.redirectUrl || '/campgrounds';
+        delete req.session.redirectUrl;
+        res.redirect(redirectUrl);
     })
 );
 

@@ -18,6 +18,7 @@ const validateComment = (req, res, next) => schemaValidator(commentSchema, req, 
 
 const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
+        req.session.redirectUrl = req.originalUrl;
         req.flash('error', 'You must be logged in to do that.');
         return res.redirect('/users/login');
     }
