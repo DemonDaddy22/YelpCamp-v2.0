@@ -16,12 +16,6 @@ const validateReview = (req, res, next) => schemaValidator(reviewSchema, req, re
 
 const validateComment = (req, res, next) => schemaValidator(commentSchema, req, res, next);
 
-const flashMiddleware = (req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-}
-
 const isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.flash('error', 'You must be logged in to do that.');
@@ -30,4 +24,12 @@ const isLoggedIn = (req, res, next) => {
     next();
 }
 
-module.exports = { validateCampground, validateReview, validateComment, flashMiddleware, isLoggedIn };
+const setLocals = (req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user;
+    res.locals.currentUrl = req.originalUrl;
+    next();
+}
+
+module.exports = { validateCampground, validateReview, validateComment, setLocals, isLoggedIn };

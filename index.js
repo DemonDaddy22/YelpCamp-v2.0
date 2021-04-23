@@ -8,7 +8,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const YelpCampError = require('./utils/YelpCampError');
-const { flashMiddleware } = require('./utils/middleware');
+const { setLocals } = require('./utils/middleware');
 const User = require('./models/User');
 
 const campgroundRoutes = require('./routes/campgrounds');
@@ -50,13 +50,14 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(flashMiddleware);
 
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use(setLocals);
 
 app.listen(PORT, () => console.log(`> Server started on Port: ${PORT}`));
 
