@@ -2,10 +2,10 @@ const express = require('express');
 const Campground = require('../models/Campground');
 const Comment = require('../models/Comment');
 const asyncErrorHandler = require('../utils/asyncErrorHandler');
-const { validateComment } = require('../utils/middleware');
+const { validateComment, isLoggedIn } = require('../utils/middleware');
 const router = express.Router({ mergeParams: true });
 
-router.post('/', validateComment, asyncErrorHandler(async (req, res) => {
+router.post('/', isLoggedIn, validateComment, asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -20,7 +20,7 @@ router.post('/', validateComment, asyncErrorHandler(async (req, res) => {
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-router.get('/:commentId/edit', asyncErrorHandler(async (req, res) => {
+router.get('/:commentId/edit', isLoggedIn, asyncErrorHandler(async (req, res) => {
     const { id, commentId } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -35,7 +35,7 @@ router.get('/:commentId/edit', asyncErrorHandler(async (req, res) => {
     res.render('comments/edit', { campground, comment });
 }));
 
-router.patch('/:commentId', validateComment, asyncErrorHandler(async (req, res) => {
+router.patch('/:commentId', isLoggedIn, validateComment, asyncErrorHandler(async (req, res) => {
     const { id, commentId } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -51,7 +51,7 @@ router.patch('/:commentId', validateComment, asyncErrorHandler(async (req, res) 
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-router.delete('/:commentId', asyncErrorHandler(async (req, res) => {
+router.delete('/:commentId', isLoggedIn, asyncErrorHandler(async (req, res) => {
     const { id, commentId } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, { $pull: { comments: commentId } }, { new: true });
     if (!campground) {

@@ -22,4 +22,12 @@ const flashMiddleware = (req, res, next) => {
     next();
 }
 
-module.exports = { validateCampground, validateReview, validateComment, flashMiddleware };
+const isLoggedIn = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        req.flash('error', 'You must be logged in to do that.');
+        return res.redirect('/users/login');
+    }
+    next();
+}
+
+module.exports = { validateCampground, validateReview, validateComment, flashMiddleware, isLoggedIn };

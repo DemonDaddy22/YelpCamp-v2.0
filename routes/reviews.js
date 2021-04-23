@@ -2,10 +2,10 @@ const express = require('express');
 const Campground = require('../models/Campground');
 const Review = require('../models/Review');
 const asyncErrorHandler = require('../utils/asyncErrorHandler');
-const { validateReview } = require('../utils/middleware');
+const { validateReview, isLoggedIn } = require('../utils/middleware');
 const router = express.Router({ mergeParams: true });
 
-router.post('/', validateReview, asyncErrorHandler(async (req, res) => {
+router.post('/', isLoggedIn, validateReview, asyncErrorHandler(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -20,7 +20,7 @@ router.post('/', validateReview, asyncErrorHandler(async (req, res) => {
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-router.get('/:reviewId/edit', asyncErrorHandler(async (req, res) => {
+router.get('/:reviewId/edit', isLoggedIn, asyncErrorHandler(async (req, res) => {
     const { id, reviewId } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -35,7 +35,7 @@ router.get('/:reviewId/edit', asyncErrorHandler(async (req, res) => {
     res.render('reviews/edit', { campground, review });
 }));
 
-router.patch('/:reviewId', validateReview, asyncErrorHandler(async (req, res) => {
+router.patch('/:reviewId', isLoggedIn, validateReview, asyncErrorHandler(async (req, res) => {
     const { id, reviewId } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -51,7 +51,7 @@ router.patch('/:reviewId', validateReview, asyncErrorHandler(async (req, res) =>
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-router.delete('/:reviewId', asyncErrorHandler(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, asyncErrorHandler(async (req, res) => {
     const { id, reviewId } = req.params;
     const campground = await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }, { new: true });
     if (!campground) {
