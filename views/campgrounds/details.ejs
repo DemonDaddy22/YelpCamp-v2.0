@@ -1,123 +1,104 @@
-<% layout('layouts/boilerplate.ejs') %>
-    <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
-        <div class='container mt-5 flex-grow-1'>
-            <%- include('../partials/flash') %>
-            <div class='row'>
-                <div class='col-12 col-lg-6 offset-lg-3'>
-                    <div class='card mb-3'>
-                        <img src='<%= campground?.image %>' class='card-img-top' alt='<%= campground?.title %>'>
-                        <div class='card-body'>
-                            <h5 class='card-title'>
-                                <%= campground?.title %>
-                            </h5>
-                            <p class='card-text'>
-                                <%= campground?.description %>
-                            </p>
-                        </div>
-                        <ul class='list-group list-group-flush'>
-                            <li class='list-group-item'>
-                                Submitted by <%= campground?.author.username %>
-                            </li>
-                            <li class='list-group-item text-muted'>
-                                <%= campground?.location %>
-                            </li>
-                            <li class='list-group-item fst-italic text-muted'>
-                                $<%= campground?.price %>/night
-                            </li>
-                        </ul>
-                        <div class='card-body d-flex'>
-                            <a href='/campgrounds/<%= campground.id %>/edit'
-                                class='btn btn-sm btn-outline-primary me-2'>Edit</a>
-                            <form action='/campgrounds/<%= campground.id %>?_method=DELETE' method='POST'>
-                                <button class='btn btn-sm btn-outline-danger'>Delete</button>
-                            </form>
-                        </div>
-                    </div>
+<% layout('layouts/boilerplate.ejs') %> <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
+<div class="container mt-5 flex-grow-1">
+    <%- include('../partials/flash') %>
+    <div class="row">
+        <div class="col-12 col-lg-6 offset-lg-3">
+            <div class="card mb-3">
+                <img src="<%= campground?.image %>" class="card-img-top" alt="<%= campground?.title %>" />
+                <div class="card-body">
+                    <h5 class="card-title"><%= campground?.title %></h5>
+                    <p class="card-text"><%= campground?.description %></p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Submitted by <%= campground?.author.username %></li>
+                    <li class="list-group-item text-muted"><%= campground?.location %></li>
+                    <li class="list-group-item fst-italic text-muted">$<%= campground?.price %>/night</li>
+                </ul>
+                <% if (campground.author.equals(currentUser?._id)) { %>
+                <div class="card-body d-flex">
+                    <a href="/campgrounds/<%= campground.id %>/edit" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                    <form action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
+            <div class="mb-3">
+                <form action="/campgrounds/<%= campground.id %>/comments" method="POST" class="needs-validation" novalidate>
                     <div class="mb-3">
-                        <form action='/campgrounds/<%= campground.id %>/comments' method='POST' class='needs-validation'
-                            novalidate>
-                            <div class='mb-3'>
-                                <textarea name='comment[body]' cols='30' rows='5' class='form-control'
-                                    placeholder="Add a comment..." required></textarea>
-                                <div class='valid-feedback'>Looks good!</div>
-                            </div>
-                            <button class='btn btn-primary btn-sm'>Add Comment</button>
-                        </form>
+                        <textarea name="comment[body]" cols="30" rows="5" class="form-control" placeholder="Add a comment..." required></textarea>
+                        <div class="valid-feedback">Looks good!</div>
                     </div>
-                    <div class="mb-3">
-                        <% for (let comment of campground.comments) { %>
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-10">
-                                            <div>
-                                                <%= comment.body %>
-                                            </div>
-                                        </div>
-                                        <div class="col-2 d-flex align-items-center justify-content-end">
-                                            <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit"
-                                                class="btn btn-pencil bi bi-pencil"></a>
-                                            <form
-                                                action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE"
-                                                method="post">
-                                                <button class="btn btn-trash bi bi-trash"></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
+                    <button class="btn btn-primary btn-sm">Add Comment</button>
+                </form>
+            </div>
+            <div class="mb-3">
+                <% for (let comment of campground.comments) { %>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-10">
+                                <div><%= comment.body %></div>
                             </div>
-                            <% } %>
+                            <div class="col-2 d-flex align-items-center justify-content-end">
+                                <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
+                                <form action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
+                                    <button class="btn btn-trash bi bi-trash"></button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3">
-                    <div class='mb-3'>
-                        <h2>Leave a review</h2>
-                        <form action='/campgrounds/<%= campground.id %>/reviews' method='POST' class='needs-validation'
-                            novalidate>
-                            <div class='mb-3'>
-                                <label for='rating' class='form-label'>Rating</label>
-                                <input type='range' min='1' max='5' name='review[rating]' id='rating' class='form-range'
-                                    list='ticks'>
-                                <datalist id='ticks' style='display: flex; justify-content: space-between'>
-                                    <option value='1' label='1'></option>
-                                    <option value='2' label='2'></option>
-                                    <option value='3' label='3'></option>
-                                    <option value='4' label='4'></option>
-                                    <option value='5' label='5'></option>
-                                </datalist>
-                            </div>
-                            <div class='mb-3'>
-                                <label for='body' class='form-label'>Review</label>
-                                <textarea name='review[body]' id='body' cols='30' rows='3'
-                                    placeholder='Write a review for this campground...' class='form-control'
-                                    required></textarea>
-                                <div class='valid-feedback'>Looks good!</div>
-                            </div>
-                            <button class='btn btn-primary btn-sm'>Submit Review</button>
-                        </form>
-                    </div>
-                    <div class="mb-3">
-                        <% for (let review of campground.reviews) { %>
-                            <div class="card mb-2">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <h5 class='card-title flex-grow-1 m-0'>
-                                            Rating: <%= review.rating %>
-                                        </h5>
-                                        <a href="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>/edit"
-                                            class="btn btn-pencil bi bi-pencil"></a>
-                                        <form
-                                            action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
-                                            method="post">
-                                            <button class="btn btn-trash bi bi-trash"></button>
-                                        </form>
-                                    </div>
-                                    <div>Review: <%= review.body %>
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
-                    </div>
-                </div>
+                <% } %>
             </div>
         </div>
+        <div class="col-12 col-lg-3">
+            <div class="mb-3">
+                <h2>Leave a review</h2>
+                <form action="/campgrounds/<%= campground.id %>/reviews" method="POST" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" list="ticks" />
+                        <datalist id="ticks" style="display: flex; justify-content: space-between">
+                            <option value="1" label="1"></option>
+                            <option value="2" label="2"></option>
+                            <option value="3" label="3"></option>
+                            <option value="4" label="4"></option>
+                            <option value="5" label="5"></option>
+                        </datalist>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Review</label>
+                        <textarea
+                            name="review[body]"
+                            id="body"
+                            cols="30"
+                            rows="3"
+                            placeholder="Write a review for this campground..."
+                            class="form-control"
+                            required
+                        ></textarea>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <button class="btn btn-primary btn-sm">Submit Review</button>
+                </form>
+            </div>
+            <div class="mb-3">
+                <% for (let review of campground.reviews) { %>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <h5 class="card-title flex-grow-1 m-0">Rating: <%= review.rating %></h5>
+                            <a href="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
+                            <form action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE" method="post">
+                                <button class="btn btn-trash bi bi-trash"></button>
+                            </form>
+                        </div>
+                        <div>Review: <%= review.body %></div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

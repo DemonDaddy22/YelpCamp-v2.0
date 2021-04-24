@@ -1,13 +1,13 @@
-const { campgroundSchema, reviewSchema, commentSchema } = require("../schema");
-const YelpCampError = require("./YelpCampError");
+const Campground = require('../models/Campground');
+const { campgroundSchema, reviewSchema, commentSchema } = require('../schema');
+const YelpCampError = require('./YelpCampError');
 
 const schemaValidator = (schema, req, res, next) => {
-    const {error} = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error) {
         if (error.isJoi) throw new YelpCampError(error.details.map(_ => _.message).join(','), 422);
         else throw new YelpCampError('Bad Request!', 400);
-    }
-    else next();
+    } else next();
 };
 
 const validateCampground = (req, res, next) => schemaValidator(campgroundSchema, req, res, next);
@@ -23,7 +23,21 @@ const isLoggedIn = (req, res, next) => {
         return res.redirect('/users/login');
     }
     next();
-}
+};
+
+const isCampgroundAuthor = async (req, res, next) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground) {
+        req.flash('error', 'Campground not found');
+        return res.redirect('/campgrounds');
+    }
+    if (!campground.author.equals(req.user._id)) {
+        req.flash('error', 'You are not authorised to perform that action');
+        return res.redirect(`/campgrounds/${id}`)
+    }
+    next();
+};
 
 const setLocals = (req, res, next) => {
     res.locals.success = req.flash('success');
@@ -31,6 +45,6 @@ const setLocals = (req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.currentUrl = req.originalUrl;
     next();
-}
+};
 
-module.exports = { validateCampground, validateReview, validateComment, setLocals, isLoggedIn };
+module.exports = { validateCampground, validateReview, validateComment, setLocals, isLoggedIn, isCampgroundAuthor };

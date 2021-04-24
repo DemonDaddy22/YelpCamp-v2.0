@@ -6,21 +6,23 @@ const campgroundSchema = Joi.object({
         price: Joi.number().min(0).required(),
         description: Joi.string().required(),
         location: Joi.string().required(),
-        image: Joi.string().required()
-    }).required()
+        image: Joi.string().required(),
+    }).required(),
 });
 
 const reviewSchema = Joi.object({
     review: Joi.object({
         body: Joi.string().required(),
-        rating: Joi.number().required().min(1).max(5)
-    }).required()
+        rating: Joi.number().required().min(1).max(5),
+    }).required(),
 });
 
 const commentSchema = Joi.object({
     comment: Joi.object({
-        body: Joi.string().required()
-    }).required()
+        body: Joi.string().required(),
+    }).required(),
 });
 
 module.exports = { campgroundSchema, reviewSchema, commentSchema };
+
+// TODO - validate user
