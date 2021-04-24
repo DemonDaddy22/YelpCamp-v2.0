@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Campground = require('../models/Campground');
 const cities = require('./cities');
@@ -19,6 +20,7 @@ const seedDB = async () => {
         const descriptorsIndex = getRandomNum(descriptors.length);
 
         const campground = new Campground({
+            author: process.env.AUTHOR_ID,
             title: `${descriptors[descriptorsIndex]} ${places[placesIndex]}`,
             price: `${getRandomNum(25)}`,
             description: 'hope plant mean outline welcome include process physical jet becoming sharp friend',

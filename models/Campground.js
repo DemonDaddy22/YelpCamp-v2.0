@@ -6,34 +6,38 @@ const Schema = mongoose.Schema;
 const CampgroundSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     price: {
         type: Number,
-        required: true
+        required: true,
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     image: {
-        type: String
+        type: String,
     },
     location: {
-        type: String
+        type: String,
     },
     reviews: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Review'
-        }
+            ref: 'Review',
+        },
     ],
     comments: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Comment'
-        }
-    ]
+            ref: 'Comment',
+        },
+    ],
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    },
 });
 
 // mongoose middleware which needs to be configured before model creation
