@@ -38,14 +38,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-10">
-                                <div><%= comment.body %></div>
+                                <%= comment?.body %>
                             </div>
-                            <div class="col-2 d-flex align-items-center justify-content-end">
-                                <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
-                                <form action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
-                                    <button class="btn btn-trash bi bi-trash"></button>
-                                </form>
+                            <div class="col-2 fst-italic text-muted text-end">
+                                <%= comment?.author?.username %>
                             </div>
+                        </div>
+                        
+                        <div class="d-flex mt-2">
+                            <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
+                            <form action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
+                                <button class="btn btn-trash bi bi-trash"></button>
+                            </form>
                         </div>
                     </div>
                 </div>
