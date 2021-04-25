@@ -44,13 +44,14 @@
                                 <%= comment?.author?.username %>
                             </div>
                         </div>
-                        
+                        <% if (comment.author.equals(currentUser?._id)) { %>
                         <div class="d-flex mt-2">
                             <a href="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
                             <form action="/campgrounds/<%= campground.id %>/comments/<%= comment.id %>?_method=DELETE" method="post">
                                 <button class="btn btn-trash bi bi-trash"></button>
                             </form>
                         </div>
+                        <% } %>
                     </div>
                 </div>
                 <% } %>
