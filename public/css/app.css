@@ -24,6 +24,12 @@
     outline: none;
 }
 
+.hr {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 @media (min-width: 576px) {
     .w-sm-80 {
         width: 80% !important;

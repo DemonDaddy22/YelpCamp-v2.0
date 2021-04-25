@@ -1,4 +1,5 @@
 const Campground = require('../models/Campground');
+const Review = require('../models/Review');
 const { campgroundSchema, reviewSchema, commentSchema } = require('../schema');
 const YelpCampError = require('./YelpCampError');
 
@@ -34,7 +35,26 @@ const isCampgroundAuthor = async (req, res, next) => {
     }
     if (!campground.author.equals(req.user._id)) {
         req.flash('error', 'You are not authorised to perform that action');
-        return res.redirect(`/campgrounds/${id}`)
+        return res.redirect(`/campgrounds/${id}`);
+    }
+    next();
+};
+
+const isReviewAuthor = async (req, res, next) => {
+    const { id, reviewId } = req.params;
+    const campground = await Campground.findById(id);
+    if (!campground) {
+        req.flash('error', 'Campground not found');
+        return res.redirect('/campgrounds');
+    }
+    const review = await Review.findById(reviewId);
+    if (!review) {
+        req.flash('error', 'Review not found');
+        return res.redirect(`/campgrounds/${campground.id}`);
+    }
+    if (!review.author.equals(req.user._id)) {
+        req.flash('error', 'You are not authorised to perform that action');
+        return res.redirect(`/campgrounds/${id}`);
     }
     next();
 };
@@ -47,4 +67,12 @@ const setLocals = (req, res, next) => {
     next();
 };
 
-module.exports = { validateCampground, validateReview, validateComment, setLocals, isLoggedIn, isCampgroundAuthor };
+module.exports = {
+    validateCampground,
+    validateReview,
+    validateComment,
+    setLocals,
+    isLoggedIn,
+    isCampgroundAuthor,
+    isReviewAuthor,
+};

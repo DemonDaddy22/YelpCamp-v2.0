@@ -26,10 +26,10 @@
             <div class="mb-3">
                 <form action="/campgrounds/<%= campground.id %>/comments" method="POST" class="needs-validation" novalidate>
                     <div class="mb-3">
-                        <textarea name="comment[body]" cols="30" rows="5" class="form-control" placeholder="Add a comment..." required></textarea>
+                        <textarea <%= !currentUser && 'disabled' %> name="comment[body]" cols="30" rows="5" class="form-control" placeholder="<%= currentUser ? 'Add a comment...' : 'Sign in to add comments' %>" required></textarea>
                         <div class="valid-feedback">Looks good!</div>
                     </div>
-                    <button class="btn btn-primary btn-sm">Add Comment</button>
+                    <button <%= !currentUser && 'disabled' %> class="btn btn-primary btn-sm">Add Comment</button>
                 </form>
             </div>
             <div class="mb-3">
@@ -55,10 +55,11 @@
         <div class="col-12 col-lg-3">
             <div class="mb-3">
                 <h2>Leave a review</h2>
+                <div class="hr my-2"></div>
                 <form action="/campgrounds/<%= campground.id %>/reviews" method="POST" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="rating" class="form-label">Rating</label>
-                        <input type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" list="ticks" />
+                        <input <%= !currentUser && 'disabled' %> type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" list="ticks" />
                         <datalist id="ticks" style="display: flex; justify-content: space-between">
                             <option value="1" label="1"></option>
                             <option value="2" label="2"></option>
@@ -69,32 +70,37 @@
                     </div>
                     <div class="mb-3">
                         <label for="body" class="form-label">Review</label>
-                        <textarea
+                        <textarea <%= !currentUser && 'disabled' %>
                             name="review[body]"
                             id="body"
                             cols="30"
                             rows="3"
-                            placeholder="Write a review for this campground..."
+                            placeholder="<%= currentUser ? 'Write a review for this campground...' : 'Sign in to add reviews' %>"
                             class="form-control"
                             required
                         ></textarea>
                         <div class="valid-feedback">Looks good!</div>
                     </div>
-                    <button class="btn btn-primary btn-sm">Submit Review</button>
+                    <button <%= !currentUser && 'disabled' %> class="btn btn-primary btn-sm">Submit Review</button>
                 </form>
             </div>
             <div class="mb-3">
                 <% for (let review of campground.reviews) { %>
                 <div class="card mb-2">
                     <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <h5 class="card-title flex-grow-1 m-0">Rating: <%= review.rating %></h5>
+                        <div class="mb-2"><%= review?.body %></div>
+                        <div class="d-flex align-items-center">
+                            <div class="fst-italic text-muted flex-grow-1 me-2"><%= review?.author?.username %></div>
+                            <div><%= review?.rating %></div>
+                        </div>
+                        <% if (review.author.equals(currentUser?._id)) { %>
+                        <div class="d-flex mt-2">
                             <a href="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>/edit" class="btn btn-pencil bi bi-pencil"></a>
                             <form action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE" method="post">
                                 <button class="btn btn-trash bi bi-trash"></button>
                             </form>
                         </div>
-                        <div>Review: <%= review.body %></div>
+                        <% } %>
                     </div>
                 </div>
                 <% } %>
