@@ -65,13 +65,13 @@
                 <form action="/campgrounds/<%= campground.id %>/reviews" method="POST" class="needs-validation" novalidate>
                     <div class="mb-3">
                         <label for="rating" class="form-label">Rating</label>
-                        <input <%= !currentUser && 'disabled' %> type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" list="ticks" />
+                        <input <%= !currentUser && 'disabled' %> value="5" type="range" min="1" max="5" name="review[rating]" id="rating" class="form-range" list="ticks" />
                         <datalist id="ticks" style="display: flex; justify-content: space-between">
-                            <option value="1" label="1"></option>
-                            <option value="2" label="2"></option>
-                            <option value="3" label="3"></option>
-                            <option value="4" label="4"></option>
-                            <option value="5" label="5"></option>
+                            <option style='color: #d62b00' value="1" label="1 &#9733"></option>
+                            <option style='color: #ff9008' value="2" label="2 &#9733"></option>
+                            <option style='color: #f7c348' value="3" label="3 &#9733"></option>
+                            <option style='color: #c1d600' value="4" label="4 &#9733"></option>
+                            <option style='color: #6bd600' value="5" label="5 &#9733"></option>
                         </datalist>
                     </div>
                     <div class="mb-3">

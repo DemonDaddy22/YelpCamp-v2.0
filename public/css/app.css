@@ -35,7 +35,8 @@
     gap: 0.1rem;
 }
 
-.star-filled, .star-empty {
+.star-filled,
+.star-empty {
     color: #f7c348;
     text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
 }
@@ -56,11 +57,13 @@
     .w-lg-80 {
         width: 80% !important;
     }
-    .new-form-container, .edit-form-container {
+    .new-form-container,
+    .edit-form-container {
         height: calc(100vh - 112px);
         overflow-y: hidden;
     }
-    .new-form, .edit-form {
+    .new-form,
+    .edit-form {
         height: 100%;
         overflow-y: scroll;
     }
