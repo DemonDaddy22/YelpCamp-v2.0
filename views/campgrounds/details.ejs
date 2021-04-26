@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate.ejs') %> <% block('head').append(`<title>Campground${campground?.title ? ` | ${campground.title}` : ''}</title>`) %>
+
 <div class="container mt-5 flex-grow-1">
     <%- include('../partials/flash') %>
     <div class="row">
@@ -96,7 +97,14 @@
                         <div class="mb-2"><%= review?.body %></div>
                         <div class="d-flex align-items-center">
                             <div class="fst-italic text-muted flex-grow-1 me-2"><%= review?.author?.username %></div>
-                            <div><%= review?.rating %></div>
+                            <div class='stars-wrapper'>
+                                <% for( let i = 0; i < review?.rating; i++ ) { %>
+                                    <div class='star-filled'>&#9733;</div>
+                                <% } %>
+                                <% for( let i = 0; i < 5 - review?.rating; i++ ) { %>
+                                    <div class='star-empty'>&#9734;</div>
+                                <% } %>
+                            </div>
                         </div>
                         <% if (review.author.equals(currentUser?._id)) { %>
                         <div class="d-flex mt-2">

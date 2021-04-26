@@ -30,6 +30,16 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.stars-wrapper {
+    display: flex;
+    gap: 0.1rem;
+}
+
+.star-filled, .star-empty {
+    color: #f7c348;
+    text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
+}
+
 @media (min-width: 576px) {
     .w-sm-80 {
         width: 80% !important;
