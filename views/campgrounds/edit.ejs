@@ -98,7 +98,12 @@
                                         aria-label="Checkbox for deleting image"
                                     />
                                 </div>
-                                <img loading='lazy' class="input-img-thumbnail" src="<%= img.url %>" alt="<%= img.filename %>" />
+                                <img
+                                    loading="lazy"
+                                    class="input-img-thumbnail"
+                                    src="<%= img.thumbnail %>"
+                                    alt="<%= img.filename %>"
+                                />
                             </div>
                             <% }) %>
                         </div>
@@ -112,3 +117,4 @@
         </div>
     </div>
 </div>
+<!-- TODO - Add default image if no image is uploaded by user -->
