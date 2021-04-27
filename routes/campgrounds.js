@@ -1,4 +1,7 @@
 const express = require('express');
+const multer = require('multer');
+const { storage } = require('../cloudinary-config');
+const upload = multer({ storage });
 const {
     getAllCamprounds,
     getNewCampgroundForm,
@@ -18,7 +21,7 @@ router.get('/new', isLoggedIn, getNewCampgroundForm);
 
 router.get('/:id', asyncErrorHandler(getCampground));
 
-router.post('/', isLoggedIn, validateCampground, asyncErrorHandler(createNewCampground));
+router.post('/', isLoggedIn, upload.array('images'), validateCampground, asyncErrorHandler(createNewCampground));
 
 router.get('/:id/edit', isLoggedIn, isCampgroundAuthor, asyncErrorHandler(getEditCampgroundForm));
 

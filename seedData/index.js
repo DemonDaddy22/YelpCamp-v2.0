@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 const Campground = require('../models/Campground');
 const cities = require('./cities');

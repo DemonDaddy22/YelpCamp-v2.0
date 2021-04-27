@@ -1,3 +1,5 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -24,7 +26,7 @@ mongoose.connect('mongodb://localhost:27017/yelpcamp', {
 });
 
 const db = mongoose.connection;
-db.on('error', (err) => console.error(err));
+db.on('error', err => console.error(err));
 db.once('open', () => console.log('> Database connection established'));
 
 const app = express();
