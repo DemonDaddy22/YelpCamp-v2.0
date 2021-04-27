@@ -41,6 +41,11 @@
     text-shadow: 0.2px 0.5px 0 rgba(0, 0, 0, 0.25);
 }
 
+.carousel-img {
+    height: 500px !important;
+    object-fit: contain;
+}
+
 @media (min-width: 576px) {
     .w-sm-80 {
         width: 80% !important;
