@@ -80,15 +80,28 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="images">Upload Image(s)</label>
-                        <input
-                            class="form-control"
-                            type="file"
-                            accept="image/*"
-                            name="images"
-                            id="images"
-                            multiple
-                        />
+                        <input class="form-control" type="file" accept="image/*" name="images" id="images" multiple />
                         <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Select image(s) to remove from campground (if any)</label>
+                        <div class="img-thumbnail-container">
+                            <% campground.images.map((img, i) => { %>
+                            <div class="input-group w-inherit">
+                                <div class="input-group-text">
+                                    <input
+                                        id="image-<%= i %>"
+                                        class="form-check-input mt-0"
+                                        type="checkbox"
+                                        name="deleteImages[]"
+                                        value="<%= img.filename %>"
+                                        aria-label="Checkbox for deleting image"
+                                    />
+                                </div>
+                                <img loading='lazy' class="input-img-thumbnail" src="<%= img.url %>" alt="<%= img.filename %>" />
+                            </div>
+                            <% }) %>
+                        </div>
                     </div>
                     <button class="btn btn-primary">Update</button>
                 </form>
