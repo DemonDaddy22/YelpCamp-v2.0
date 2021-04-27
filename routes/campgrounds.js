@@ -25,7 +25,7 @@ router.post('/', isLoggedIn, upload.array('images'), validateCampground, asyncEr
 
 router.get('/:id/edit', isLoggedIn, isCampgroundAuthor, asyncErrorHandler(getEditCampgroundForm));
 
-router.patch('/:id', isLoggedIn, validateCampground, isCampgroundAuthor, asyncErrorHandler(editCampground));
+router.patch('/:id', isLoggedIn, isCampgroundAuthor, upload.array('images'), validateCampground, asyncErrorHandler(editCampground));
 
 router.delete('/:id', isLoggedIn, isCampgroundAuthor, asyncErrorHandler(deleteCampground));
 

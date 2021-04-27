@@ -1,9 +1,14 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const mongoose = require('mongoose');
 const Campground = require('../models/Campground');
 const cities = require('./cities');
 const { places, descriptors } = require('./helper');
 
-mongoose.connect('mongodb://localhost:27017/yelpcamp', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect('mongodb://localhost:27017/yelpcamp', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+});
 
 const db = mongoose.connection;
 db.on('error', err => console.error(err));
@@ -23,8 +28,17 @@ const seedDB = async () => {
             title: `${descriptors[descriptorsIndex]} ${places[placesIndex]}`,
             price: `${getRandomNum(25)}`,
             description: 'hope plant mean outline welcome include process physical jet becoming sharp friend',
-            image: 'https://source.unsplash.com/collection/483251',
-            location: `${cities[citiesIndex].city}, ${cities[citiesIndex].state}`
+            location: `${cities[citiesIndex].city}, ${cities[citiesIndex].state}`,
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1619521480/YelpCamp-v2.0/yukfzvnofgwysje2bf9b.jpg',
+                    filename: 'YelpCamp-v2.0/yukfzvnofgwysje2bf9b',
+                },
+                {
+                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1619521483/YelpCamp-v2.0/xjslzd31obvjb3dxpbgp.jpg',
+                    filename: 'YelpCamp-v2.0/xjslzd31obvjb3dxpbgp',
+                },
+            ],
         });
 
         await campground.save();

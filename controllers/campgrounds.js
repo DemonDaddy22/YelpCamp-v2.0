@@ -27,7 +27,6 @@ const createNewCampground = async (req, res, next) => {
     campground.author = req.user._id;
     campground.images = req.files.map(file => ({ url: file.path, filename: file.filename }));
     const response = await campground.save();
-    console.log(campground);
     req.flash('success', 'Campground created successfully!');
     res.redirect(`/campgrounds/${response?.id}`);
 };
@@ -44,6 +43,8 @@ const editCampground = async (req, res) => {
         new: true,
         runValidators: true,
     });
+    campground.images.push(...req.files.map(file => ({ url: file.path, filename: file.filename })));
+    await campground.save();
     req.flash('success', 'Campground updated successfully!');
     res.redirect(`/campgrounds/${campground.id}`);
 };
