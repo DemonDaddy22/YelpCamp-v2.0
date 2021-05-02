@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/DemonDaddy22/YelpCamp-v2.0#readme",
 	"dependencies": {
+		"@mapbox/mapbox-sdk": "^0.12.1",
 		"body-parser": "^1.19.0",
 		"cloudinary": "^1.25.1",
 		"connect-flash": "^0.1.1",

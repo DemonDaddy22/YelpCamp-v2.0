@@ -5,6 +5,7 @@
             <%- include('../partials/flash') %>
                 <div class="row">
                     <div class="col-12 col-lg-6 offset-lg-3">
+                        <div id='map' style='width: 100%; height: 500px;'></div>
                         <% if (campground?.images?.length> 0) { %>
                             <div id="campgroundCarouselControl" class="carousel carousel-fade slide mb-2"
                                 data-bs-ride="carousel">
@@ -186,3 +187,17 @@
                     </div>
                 </div>
         </div>
+        <script>
+            mapboxgl.accessToken = '<%- process.env.MAPBOX_TOKEN %>';
+            const campground = <%- JSON.stringify(campground) %>;
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: campground.geoLocation.coordinates,
+                zoom: 12
+            });
+
+            new mapboxgl.Marker().setLngLat(campground.geoLocation.coordinates).addTo(map);
+            const nav = new mapboxgl.NavigationControl();
+            map.addControl(nav, 'top-left');
+        </script>
