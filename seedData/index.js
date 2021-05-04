@@ -29,13 +29,17 @@ const seedDB = async () => {
             price: `${getRandomNum(25)}`,
             description: 'hope plant mean outline welcome include process physical jet becoming sharp friend',
             location: `${cities[citiesIndex].city}, ${cities[citiesIndex].state}`,
+            geoLocation: {
+                type: 'Point',
+                coordinates: [-113.1331, 47.0202],
+            },
             images: [
                 {
-                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1619521480/YelpCamp-v2.0/yukfzvnofgwysje2bf9b.jpg',
+                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1542083816/ppcmgwyg9v1imotkfihc.jpg',
                     filename: 'YelpCamp-v2.0/yukfzvnofgwysje2bf9b',
                 },
                 {
-                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1619521483/YelpCamp-v2.0/xjslzd31obvjb3dxpbgp.jpg',
+                    url: 'https://res.cloudinary.com/yelp-camp/image/upload/v1557289930/pzjf5rnfsuxtuqhjiuji.jpg',
                     filename: 'YelpCamp-v2.0/xjslzd31obvjb3dxpbgp',
                 },
             ],
