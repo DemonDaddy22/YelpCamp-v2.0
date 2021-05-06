@@ -12,50 +12,62 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_50,h_50');
 });
 
-const CampgroundSchema = new Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    images: [ImageSchema],
-    location: {
-        type: String,
-    },
-    geoLocation: {
-        type: {
+const CampgroundSchema = new Schema(
+    {
+        title: {
             type: String,
-            enum: ['Point'],
             required: true,
         },
-        coordinates: {
-            type: [Number],
+        price: {
+            type: Number,
             required: true,
         },
-    },
-    reviews: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Review',
+        description: {
+            type: String,
+            required: true,
         },
-    ],
-    comments: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Comment',
+        images: [ImageSchema],
+        location: {
+            type: String,
         },
-    ],
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        geoLocation: {
+            type: {
+                type: String,
+                enum: ['Point'],
+                required: true,
+            },
+            coordinates: {
+                type: [Number],
+                required: true,
+            },
+        },
+        reviews: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Review',
+            },
+        ],
+        comments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Comment',
+            },
+        ],
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
     },
+    { toJSON: { virtuals: true } }
+);
+
+CampgroundSchema.virtual('properties.popupMarkup').get(function () {
+    return `
+    <strong>
+        <a href='/campgrounds/${this._id}'>${this.title}</a>
+    </strong>
+    <p>${this.description?.substring(0, 50)}...</p>
+    `;
 });
 
 // mongoose middleware which needs to be configured before model creation

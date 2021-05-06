@@ -18,7 +18,7 @@ const getRandomNum = max => Math.floor(Math.random() * max);
 
 const seedDB = async () => {
     await Campground.deleteMany({});
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 200; i++) {
         const citiesIndex = getRandomNum(cities.length);
         const placesIndex = getRandomNum(places.length);
         const descriptorsIndex = getRandomNum(descriptors.length);
@@ -29,9 +29,9 @@ const seedDB = async () => {
             price: `${getRandomNum(25)}`,
             description: 'hope plant mean outline welcome include process physical jet becoming sharp friend',
             location: `${cities[citiesIndex].city}, ${cities[citiesIndex].state}`,
-            geoLocation: {
+            geometry: {
                 type: 'Point',
-                coordinates: [-113.1331, 47.0202],
+                coordinates: [cities[citiesIndex].longitude, cities[citiesIndex].latitude],
             },
             images: [
                 {

@@ -33,7 +33,7 @@ const createNewCampground = async (req, res, next) => {
         limit: 1,
     }).send();
     const campground = new Campground(req.body.campground);
-    campground.geoLocation = geoData.body.features[0].geometry;
+    campground.geometry = geoData.body.features[0].geometry;
     campground.author = req.user._id;
     campground.images = req.files.map(file => ({ url: file.path, filename: file.filename }));
     const response = await campground.save();
@@ -57,7 +57,7 @@ const editCampground = async (req, res) => {
         new: true,
         runValidators: true,
     });
-    campground.geoLocation = geoData.body.features[0].geometry;
+    campground.geometry = geoData.body.features[0].geometry;
     campground.images.push(...req.files.map(file => ({ url: file.path, filename: file.filename })));
     await campground.save();
     if (req.body.deleteImages) {

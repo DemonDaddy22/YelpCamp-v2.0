@@ -193,11 +193,11 @@
             const map = new mapboxgl.Map({
                 container: 'map',
                 style: 'mapbox://styles/mapbox/streets-v11',
-                center: campground.geoLocation.coordinates,
+                center: campground.geometry.coordinates,
                 zoom: 12
             });
 
-            new mapboxgl.Marker().setLngLat(campground.geoLocation.coordinates).addTo(map);
+            new mapboxgl.Marker().setLngLat(campground.geometry.coordinates).addTo(map);
             const nav = new mapboxgl.NavigationControl();
             map.addControl(nav, 'top-left');
         </script>
