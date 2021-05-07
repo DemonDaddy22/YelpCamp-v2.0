@@ -30,7 +30,7 @@ const CampgroundSchema = new Schema(
         location: {
             type: String,
         },
-        geoLocation: {
+        geometry: {
             type: {
                 type: String,
                 enum: ['Point'],
