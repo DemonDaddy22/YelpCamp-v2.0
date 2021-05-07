@@ -4,34 +4,29 @@
         <div class="container mt-5 flex-grow-1">
             <%- include('../partials/flash') %>
                 <h1>All Campgrounds</h1>
-                <% for (let campground of campgrounds) { %>
-                    <div class='card mb-3'>
-                        <div class='row'>
-                            <div class='col-md-4'>
-                                <img class='img-fluid' src='<%= campground?.images?.length > 0 ? campground?.images[0]?.url : `
-                                    https://res.cloudinary.com/yelp-camp/image/upload/v1619869777/campground-placeholder.png`
-                                    %>' alt='<%= campground?.title %>'>
-                            </div>
-                            <div class='col-md-8'>
-                                <div class='card-body'>
-                                    <h5 class='card-title'>
-                                        <%= campground?.title %>
-                                    </h5>
-                                    <div class='card-text'>
-                                        <%= campground?.description %>
-                                    </div>
-                                    <div class='card-text text-muted'>
-                                        <%= campground?.location %>
-                                    </div>
-                                    <a class='btn btn-sm btn-primary mt-3'
-                                        href='/campgrounds/<%= campground?.id %>'>View
-                                        <%= campground?.title %>
-                                    </a>
+                <div class='cards-container'>
+                    <% for (let campground of campgrounds) { %>
+                        <div class='card mb-md-3'>
+                            <img class='card-img-top' src='<%= campground?.images?.length > 0 ? campground?.images[0]?.url : `
+                                        https://res.cloudinary.com/yelp-camp/image/upload/v1619869777/campground-placeholder.png`
+                                        %>' alt='<%= campground?.title %>'>
+                            <div class='card-body'>
+                                <h5 class='card-title mb-0'>
+                                    <%= campground?.title %>
+                                </h5>
+                                <div class='card-text text-muted mb-2'>
+                                    <%= campground?.location %>
                                 </div>
+                                <div class='card-text'>
+                                    <%= campground?.description?.length > 100 ? campground?.description?.substring(0, 100) + '...' : campground?.description %>
+                                </div>
+                                <a class='btn btn-sm btn-outline-primary mt-3' href='/campgrounds/<%= campground?.id %>'>View
+                                    <%= campground?.title %>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <% } %>
+                        <% } %>
+                </div>
         </div>
         <script>
             const mapboxToken = '<%- process.env.MAPBOX_TOKEN %>';

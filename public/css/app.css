@@ -62,6 +62,20 @@
     height: 400px;
 }
 
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.cards-container .card-text {
+    font-size: 0.9rem;
+}
+
+.cards-container .text-muted {
+    font-size: 0.8rem;
+}
+
 @media (min-width: 576px) {
     .w-sm-80 {
         width: 80% !important;
@@ -71,6 +85,10 @@
 @media (min-width: 768px) {
     .w-md-80 {
         width: 80% !important;
+    }
+
+    .cards-container .card {
+        width: 48%;
     }
 }
 
@@ -91,6 +109,10 @@
     .error-status {
         font-size: 6rem;
     }
+
+    .cards-container .card {
+        width: 32%;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -102,5 +124,9 @@
 @media (min-width: 1400px) {
     .w-xxl-80 {
         width: 80% !important;
+    }
+
+    .cards-container .card {
+        width: 24%;
     }
 }
