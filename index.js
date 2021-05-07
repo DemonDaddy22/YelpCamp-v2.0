@@ -69,7 +69,7 @@ app.use('/campgrounds/:id/comments', commentRoutes);
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
-    res.redirect('/campgrounds');
+    res.render('home');
 });
 
 app.all('*', (req, res, next) => {
