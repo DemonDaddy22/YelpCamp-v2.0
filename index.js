@@ -20,7 +20,9 @@ const reviewRoutes = require('./routes/reviews');
 const commentRoutes = require('./routes/comments');
 const userRoutes = require('./routes/users');
 
-mongoose.connect('mongodb://localhost:27017/yelpcamp', {
+const dbUrl = process.env.DB_URL;
+// 'mongodb://localhost:27017/yelpcamp'
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
