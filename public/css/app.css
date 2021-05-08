@@ -43,7 +43,8 @@
 
 .carousel-img {
     height: 400px !important;
-    object-fit: contain;
+    object-fit: cover;
+    image-rendering: pixelated;
 }
 
 .img-thumbnail-container {

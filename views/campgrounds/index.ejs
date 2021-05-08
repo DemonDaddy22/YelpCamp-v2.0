@@ -5,6 +5,7 @@
             <%- include('../partials/flash') %>
                 <h1>All Campgrounds</h1>
                 <div class='cards-container'>
+                    <% if (campgrounds?.length > 0) { %>
                     <% for (let campground of campgrounds) { %>
                         <div class='card mb-md-3'>
                             <img class='card-img-top' src='<%= campground?.images?.length > 0 ? campground?.images[0]?.url : `
@@ -25,7 +26,10 @@
                                 </a>
                             </div>
                         </div>
-                        <% } %>
+                    <% } %>
+                    <% } else { %>
+                        <div class="text-muted fs-6">No campgrounds exist! Create one from <a href='/campgrounds/new'>here</a>.</div>
+                    <% } %>
                 </div>
         </div>
         <script>
